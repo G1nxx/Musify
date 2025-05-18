@@ -1,29 +1,47 @@
 {
-  "expo": {
-    "name": "music-player",
-    "slug": "music-player",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+	"expo": {
+		"name": "music-player",
+		"slug": "music-player",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/icon.png",
+		"userInterfaceStyle": "dark",
+		"scheme": "music-player",
+		"newArchEnabled": false,
+		"splash": {
+			"image": "./assets/splash-icon.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#000000"
+		},
+		"ios": {
+			"supportsTablet": true,
+			"infoPlist": {
+				"UIBackgroundModules": ["audio", "audio"]
+			},
+			"bundleIdentifier": "com.g1nxx.musicplayer"
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon.png",
+				"backgroundColor": "#000000"
+			},
+			"edgeToEdgeEnabled": true,
+			"package": "com.g1nxx.musicplayer",
+			"permissions": ["android.permission.FOREGROUND_SERVICE", "android.permission.RECORD_AUDIO"]
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
+		},
+		"plugins": ["expo-router"],
+		"extra": {
+			"router": {},
+			"eas": {
+				"projectId": "fd0c6ac1-997d-46c7-a35b-24e837735b47"
+			}
+		},
+		"experiments": {
+			"typedRoutes": true,
+			"tsconfigPaths": true
+		}
+	}
 }
