@@ -1,41 +1,48 @@
-import { unknowTrackImageUri } from '@/constants/images'
+import { unknownTrackImageUri } from '@/constants/images'
 import { colors, fontSize } from '@/constants/tokens'
 import { defaultStyles } from '@/styles'
 import React from 'react'
 import { TouchableHighlight, View, StyleSheet, Text } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import { Track, useActiveTrack } from 'react-native-track-player'
+import { Track, useActiveTrack, useIsPlaying } from 'react-native-track-player'
 import { Entypo, Ionicons } from '@expo/vector-icons'
 import { play } from 'react-native-track-player/lib/trackPlayer'
 
 export type TrackListItemProps = {
 	track: Track
+	showArtwork?: boolean
 	onTrackSelect: (track: Track) => void
 }
 
-export const TrackListItem = ({ track, onTrackSelect: handleTrackSelect }: TrackListItemProps) => {
+export const TrackListItem = ({
+	track,
+	showArtwork,
+	onTrackSelect: handleTrackSelect,
+}: TrackListItemProps) => {
 	const isActiveTrack = useActiveTrack()?.url === track.url
+	const { playing } = useIsPlaying()
 
 	const handleOnPress = () => {
-			handleTrackSelect(track)
-			play()
+		handleTrackSelect(track)
+		play()
 	}
-
 	return (
 		<TouchableHighlight onPress={handleOnPress}>
 			<View style={styles.trackItemContainer}>
-				<View>
-					<FastImage
-						source={{
-							uri: track.artwork ?? unknowTrackImageUri,
-							priority: FastImage.priority.normal,
-						}}
-						style={{
-							...styles.trackArtworkImage,
-							opacity: isActiveTrack ? 0.6 : 1,
-						}}
-					/>
-				</View>
+				{showArtwork && (
+					<View>
+						<FastImage
+							source={{
+								uri: track.artwork ? track.artwork : unknownTrackImageUri,
+								priority: FastImage.priority.normal,
+							}}
+							style={{
+								...styles.trackArtworkImage,
+								opacity: isActiveTrack ? 0.6 : 1,
+							}}
+						/>
+					</View>
+				)}
 
 				<View
 					style={{

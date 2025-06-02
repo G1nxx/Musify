@@ -8,6 +8,14 @@
     "playlist": ["Chill 🌱"]
   },
   {
+    "url": "http://10.0.2.2:8080/files/tracks/bôa-Duvet.mp3",
+    "title": "Duvet",
+    "artist": "Bôa",
+    "artwork": "http://10.0.2.2:8080/files/covers/bôa-Twilight.jpg",
+    "rating": 1,
+    "playlist": ["Chill 🌱"]
+  },
+  {
     "url": "https://audio.jukehost.co.uk/priWy2vYsWODmQiM6KevNYVLpPJGPZGd",
     "title": "Memories",
     "playlist": ["Instrumental 🎵"]

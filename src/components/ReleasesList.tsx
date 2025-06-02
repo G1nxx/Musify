@@ -1,13 +1,14 @@
 import React from 'react'
 import { FlatList, FlatListProps, View, Text } from 'react-native'
-import { SubscriptionItem, SubscriptionListItem } from '@/components/SubscriptionListItem'
 import { unknownTrackImageUri } from '@/constants/images'
 import FastImage from 'react-native-fast-image'
 import { utilsStyles } from '@/styles'
+import { ReleaseListItem } from './ReleasesListItem'
+import { Album } from '@/helpers/types'
 
-export type SubscriptionsListProps = Partial<FlatListProps<SubscriptionItem>> & {
-	items: SubscriptionItem[]
-	onItemPress: (item: SubscriptionItem) => void
+export type ReleasesListProps = Partial<FlatListProps<Album>> & {
+	items: Album[]
+	onItemPress: (item: Album) => void
 }
 
 const ItemDivider = () => (
@@ -15,20 +16,16 @@ const ItemDivider = () => (
 		style={{
 			...utilsStyles.itemSeparator,
 			marginVertical: 9,
-			marginLeft: 70,
+			//marginLeft: 70,
 		}}
 	/>
 )
 
-export const SubscriptionsList = ({
-	items,
-	onItemPress,
-	...flatListProps
-}: SubscriptionsListProps) => {
+export const ReleasesList = ({ items, onItemPress, ...flatListProps }: ReleasesListProps) => {
 	return (
 		<FlatList
 			data={items}
-			keyExtractor={(item) => item.uId}
+			keyExtractor={(item) => item.id}
 			ItemSeparatorComponent={ItemDivider}
 			ListEmptyComponent={
 				<View style={{ alignItems: 'center', marginTop: 40 }}>
@@ -40,10 +37,9 @@ export const SubscriptionsList = ({
 					/>
 				</View>
 			}
-			renderItem={({ item }) => <SubscriptionListItem item={item} onSelect={onItemPress} />}
+			renderItem={({ item }) => <ReleaseListItem item={item} onSelect={onItemPress} />}
 			contentContainerStyle={{
 				paddingBottom: 20,
-				paddingHorizontal: 16,
 				...(items.length === 0 && { flex: 1, justifyContent: 'center' }),
 			}}
 			{...flatListProps}

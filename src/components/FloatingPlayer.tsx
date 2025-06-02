@@ -1,35 +1,44 @@
-import { unknowTrackImageUri } from '@/constants/images'
+import { unknownTrackImageUri } from '@/constants/images'
 import { defaultStyles } from '@/styles'
-import React from 'react'
 import { StyleSheet, TouchableOpacity, View, Text, ViewProps } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { Track, useActiveTrack } from 'react-native-track-player'
 import { PlayPauseButton, SkipToNextButton } from '@/components/PlayerControls'
+import { useLastActiveTrack } from '@/hooks/useLastActivetrack'
+import { MovingText } from './MovingText'
+import { useRouter } from 'expo-router'
 
-export const FloatingPlayer = ({style}: ViewProps) => {
+export const FloatingPlayer = ({ style }: ViewProps) => {
+	const router = useRouter()
+
 	const activeTrack = useActiveTrack()
+	const lastActvetrack = useLastActiveTrack()
 
-	const displayedTrack: Track = activeTrack
+	const displayedTrack = activeTrack && lastActvetrack
+
+	const handlePress = () => {
+		router.navigate('/player')
+	}
 
 	if (!displayedTrack) return null
 
 	return (
-		<TouchableOpacity
-            activeOpacity={0.9}
-            style={[
-                styles.container, style
-            ]}
-        >
+		<TouchableOpacity onPress={handlePress} activeOpacity={0.9} style={[styles.container, style]}>
 			<>
 				<FastImage
 					source={{
-						uri: displayedTrack.artwork ?? unknowTrackImageUri,
+						uri: displayedTrack.artwork ?? unknownTrackImageUri,
 					}}
 					style={styles.trackArtworkImage}
 				/>
 
 				<View style={styles.trackTitleContainer}>
-					<Text style={styles.trackTitle}>{displayedTrack.title}</Text>
+					<MovingText
+						style={styles.trackTitle}
+						text={displayedTrack.title ?? ''}
+						animationThreshold={25}
+						fontCoef={10}
+					/>
 				</View>
 
 				<View style={styles.trackControlsContainer}>
@@ -42,14 +51,14 @@ export const FloatingPlayer = ({style}: ViewProps) => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#252525',
-        padding: 8,
-        borderRadius: 12,
-        paddingVertical: 10,
-    },
+	container: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		backgroundColor: '#252525',
+		padding: 8,
+		borderRadius: 12,
+		paddingVertical: 10,
+	},
 	trackArtworkImage: {
 		width: 40,
 		height: 40,

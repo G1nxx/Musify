@@ -3,6 +3,8 @@ import { Tabs } from 'expo-router'
 import React from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { FloatingPlayer } from '@/components/FloatingPlayer'
+import Animated from 'react-native-reanimated'
+import { LinearGradient } from 'expo-linear-gradient'
 
 const TabsNavigation = () => {
 	return (
@@ -17,19 +19,34 @@ const TabsNavigation = () => {
 					headerShown: false,
 					tabBarStyle: {
 						position: 'absolute',
-						backgroundColor: 'transparent',
+						//backgroundColor: 'transparent',
 						borderTopWidth: 0,
 						elevation: 0,
 						shadowOpacity: 0,
 					},
+					tabBarBackground: () => (
+						<Animated.View style={{ flex: 1 }}>
+							<LinearGradient
+								colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
+								locations={[0, 1]}
+								style={{ flex: 1 }}
+								start={{ x: 0, y: 0 }}
+								end={{ x: 0, y: 1 }}
+							/>
+						</Animated.View>
+					),
 				}}
 			>
 				<Tabs.Screen
 					name="(home)"
 					options={{
 						title: 'Home',
-						tabBarIcon: ({ color }) => (
-							<MaterialCommunityIcons name="home" size={20} color={color} />
+						tabBarIcon: ({ color, focused }) => (
+							<MaterialCommunityIcons
+								name={focused ? 'home' : 'home-outline'}
+								size={20}
+								color={color}
+							/>
 						),
 					}}
 				/>
@@ -60,9 +77,12 @@ const TabsNavigation = () => {
 						),
 					}}
 				/>
+				<Tabs.Screen name="album" options={{ href: null }} />
+				<Tabs.Screen name="playlist" options={{ href: null }} />
+				<Tabs.Screen name="artist" options={{ href: null }} />
 			</Tabs>
 
-			<FloatingPlayer 
+			<FloatingPlayer
 				style={{
 					position: 'absolute',
 					left: 8,

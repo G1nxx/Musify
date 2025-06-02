@@ -3,8 +3,8 @@ import { trackTitleFilter } from '@/helpers/filter'
 import { useNavigationSearch } from '@/hooks/useNavigationSearch'
 import { defaultStyles } from '@/styles'
 import { useMemo } from 'react'
-import { View } from 'react-native'
-import Library from '@/assets/data/tracks.json'
+import { ScrollView, View } from 'react-native'
+import { useTracks } from '@/store/library'
 
 const SongsScreen = () => {
 	const search = useNavigationSearch({
@@ -13,23 +13,25 @@ const SongsScreen = () => {
 		},
 	})
 
-	const filteredTarcks = useMemo(() => {
-		if (!search) return Library
+	const tracks = useTracks()
 
-		return Library.filter(trackTitleFilter(search))
+	const filteredTarcks = useMemo(() => {
+		if (!search) return tracks
+
+		return tracks.filter(trackTitleFilter(search))
 	}, [search])
 
 	return (
-		<View style={defaultStyles.container}>
-			<View
+		<View style={{ ...defaultStyles.container, paddingBottom: 128 }}>
+			<ScrollView
+				contentInsetAdjustmentBehavior="automatic"
 				style={{
 					paddingLeft: 16,
 					paddingTop: 10,
-					paddingBottom: 128,
 				}}
 			>
 				<TracksList tracks={filteredTarcks} scrollEnabled={false} />
-			</View>
+			</ScrollView>
 		</View>
 	)
 }

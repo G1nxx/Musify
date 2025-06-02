@@ -1,8 +1,9 @@
 import React from 'react'
-import { TouchableOpacity, View, ViewStyle } from 'react-native'
+import { StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native'
 import TrackPlayer, { useIsPlaying } from 'react-native-track-player'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { colors } from '@/constants/tokens'
+import { PlayerRepeatToggle, PlayerShuffleToggle } from '@/components/PlayerToggles'
 
 type PlayerControlsProps = {
 	style?: ViewStyle
@@ -13,7 +14,25 @@ type PlayerButtonProps = {
 	iconSize?: number
 }
 
-export const PlayPauseButton = ({ style, iconSize }: PlayerButtonProps) => {
+export const PlayerControls = ({ style }: PlayerControlsProps) => {
+	return (
+		<View style={[styles.container, style]}>
+			<View style={styles.row}>
+				<PlayerShuffleToggle size={30} style={{ marginBottom: 6 }} />
+
+				<SkipToPreviousButton />
+
+				<PlayPauseButton />
+
+				<SkipToNextButton />
+
+				<PlayerRepeatToggle size={30} style={{ marginBottom: 6 }} />
+			</View>
+		</View>
+	)
+}
+
+export const PlayPauseButton = ({ style, iconSize = 48 }: PlayerButtonProps) => {
 	const { playing } = useIsPlaying()
 
 	return (
@@ -47,3 +66,14 @@ export const SkipToPreviousButton = ({ iconSize = 30 }: PlayerButtonProps) => {
 		</TouchableOpacity>
 	)
 }
+
+const styles = StyleSheet.create({
+	container: {
+		width: '100%',
+	},
+	row: {
+		flexDirection: 'row',
+		justifyContent: 'space-evenly',
+		alignItems: 'center',
+	},
+})
