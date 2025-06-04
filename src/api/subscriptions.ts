@@ -1,5 +1,6 @@
 import { SubscriptionItem } from '@/components/SubscriptionListItem'
 import { API_BASE_URL } from '@/constants/config'
+import { LikedSongsImageUri } from '@/constants/images'
 import { Album, Artist, Playlist } from '@/helpers/types'
 
 interface FetchSubscriptionsParams {
@@ -67,7 +68,7 @@ const getDuration = (length: number) => {
 	if (minutes > 0) {
 		return `${minutes} min${seconds > 0 ? ` ${seconds} sec` : ''}`
 	}
-	return `${seconds}sec`
+	return `${seconds} sec`
 }
 
 export const fetchSubscriptions = async (
@@ -93,13 +94,23 @@ export const fetchSubscriptions = async (
 		}
 
 		const data = await response.json()
-		const updatedSubs = data.map((sub: any) => ({
-			...sub,
-			uId: sub.type + '_' + sub.id,
-			title: sub.title || 'Unknown',
-			subtitle: sub.subtitle || 'Unknown',
-			artwork: API_BASE_URL + sub.artwork,
-		}))
+		const updatedSubs = data
+			.map((sub: any) => ({
+				...sub,
+				uId: sub.type + '_' + sub.id,
+				title: sub.title || 'Unknown',
+				subtitle: sub.subtitle || '',
+				artwork:
+					sub.title === 'Liked Songs' && sub.type === 'Playlist'
+						? LikedSongsImageUri
+						: API_BASE_URL + sub.artwork,
+			}))
+			.sort((a: SubscriptionItem, b: SubscriptionItem) => {
+				if (a.title === 'Liked Songs' && a.type === 'Playlist') return -1
+				if (b.title === 'Liked Songs' && b.type === 'Playlist') return 1
+				return 0
+			})
+
 		return updatedSubs
 	} catch (error) {
 		console.error('Error fetching subscriptions:', error)
@@ -261,6 +272,39 @@ export const fetchArtist = async (params: FetchArtistParams): Promise<Artist> =>
 		}
 
 		return processedArtist
+	} catch (error) {
+		console.error('Error fetching subscriptions:', error)
+		throw error
+	}
+}
+
+interface GetFollowStatusmParams {
+	UserId: string
+	ContentId: string
+	Type: string
+}
+
+export const getFollowStatus = async (params: GetFollowStatusmParams): Promise<boolean> => {
+	try {
+		const response = await fetch(`${API_BASE_URL}api/user/get_follow_status`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				// 'Authorization': `Bearer ${yourToken}`,
+			},
+			body: JSON.stringify({
+				user_id: String(params.UserId),
+				content_id: String(params.ContentId),
+				type: String(params.Type),
+			}),
+		})
+
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`)
+		}
+		const data = await response.json()
+		console.log(data)
+		return data
 	} catch (error) {
 		console.error('Error fetching subscriptions:', error)
 		throw error

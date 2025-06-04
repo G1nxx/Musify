@@ -2,7 +2,6 @@ import { colors } from '@/constants/tokens'
 import { useTrackPlayerRepeatMode } from '@/hooks/useTrackPlayerRepeatMode'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { ComponentProps, useEffect, useState } from 'react'
-import { TouchableOpacity, StyleSheet } from 'react-native'
 import TrackPlayer, {
 	RepeatMode,
 	State,

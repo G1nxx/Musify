@@ -4,7 +4,7 @@ import { defaultStyles } from '@/styles'
 import { SubscriptionsList } from '@/components/SubscribtionsList'
 import LibraryFilter from '@/components/LibraryFilter'
 import { fetchSubscriptions } from '@/api/subscriptions'
-//import { useAuth } from '@/contexts/AuthContext'; // Предполагается, что у вас есть контекст аутентификации
+import { userId } from '@/hooks/useAuth'
 import { colors } from '@/constants/tokens'
 import { SubscriptionItem } from '@/components/SubscriptionListItem'
 import { useRouter } from 'expo-router'
@@ -12,7 +12,7 @@ import { useRouter } from 'expo-router'
 const LibraryScreen = () => {
 	const router = useRouter()
 
-	//const { user } = useAuth(); // Получаем текущего пользователя
+	//const { user } = useAuth();
 	const [activeFilter, setActiveFilter] = useState('All')
 	const [subscriptions, setSubscriptions] = useState<SubscriptionItem[]>([])
 	const [loading, setLoading] = useState(true)

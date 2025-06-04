@@ -14,6 +14,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { usePlayerBackground } from '@/hooks/usePlayerBackground'
 import { TracksList } from '@/components/TracksList'
 import { interpolateColor, lightenColor } from '@/helpers/color'
+import { QueueControls } from '@/components/QueueControls'
 
 const ArtistScreen = () => {
 	const params = useLocalSearchParams()
@@ -140,7 +141,37 @@ const ArtistScreen = () => {
 						/>
 						<Text style={styles.artistTitle}>{artist?.title}</Text>
 					</View>
+					<View
+						style={{
+							paddingLeft: 16,
+							flex: 1,
+							flexDirection: 'row',
+							alignItems: 'center',
+							justifyContent: 'space-between',
+							//paddingRight: 16
+						}}
+					>
+						<View
+							style={{
+								flex: 1,
+								flexDirection: 'column',
+								justifyContent: 'space-between',
+								//paddingRight: 16
+							}}
+						>
+							{/* <Text style={styles.artist}>{album?.subtitle}</Text>
+							<Text style={styles.details}>
+								{album?.type} • {album?.year}
+							</Text>
+							<Text/> */}
+						</View>
 
+						<QueueControls
+							contentId={artist?.id ?? '0'}
+							type="Artist"
+							tracks={attached?.tracks ?? []}
+						/>
+					</View>
 					<View style={styles.artistHeader}>
 						<Text style={styles.sectionTitle}>Popular</Text>
 

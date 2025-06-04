@@ -14,6 +14,7 @@ import { useCallback } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { interpolateColor, lightenColor } from '@/helpers/color'
 import { usePlayerBackground } from '@/hooks/usePlayerBackground'
+import { QueueControls } from '@/components/QueueControls'
 
 const PlaylistScreen = () => {
 	const params = useLocalSearchParams()
@@ -130,13 +131,30 @@ const PlaylistScreen = () => {
 					<View
 						style={{
 							paddingLeft: 16,
+							flex: 1,
+							flexDirection: 'row',
+							alignItems: 'center',
+							justifyContent: 'space-between',
+							//paddingRight: 16
 						}}
 					>
-						<Text style={styles.artist}>{playlist?.subtitle}</Text>
-						<Text style={styles.details}>
-							{playlist?.saves || 0} {playlist?.saves == '1' ? 'save' : 'saves'} •{' '}
-							{playlist?.length}
-						</Text>
+						<View
+							style={{
+								flex: 1,
+								flexDirection: 'column',
+								justifyContent: 'space-between',
+								//paddingRight: 16
+							}}
+						>
+							<Text style={styles.artist}>{playlist?.subtitle}</Text>
+							<Text style={styles.details}>
+								{playlist?.saves || 0} {playlist?.saves == '1' ? 'save' : 'saves'} •{' '}
+								{playlist?.length}
+							</Text>
+							<Text />
+						</View>
+
+						<QueueControls contentId={playlist?.id ?? '0'} type="Playlist" tracks={filteredTracks} />
 					</View>
 				</LinearGradient>
 				{/* <Text style={styles.details}>Playlist • {playlist.releaseYear || 'Unknown'}</Text> */}

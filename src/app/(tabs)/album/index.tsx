@@ -14,6 +14,7 @@ import { useCallback } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { interpolateColor, lightenColor } from '@/helpers/color'
 import { usePlayerBackground } from '@/hooks/usePlayerBackground'
+import { QueueControls } from '@/components/QueueControls'
 
 const AlbumScreen = () => {
 	const params = useLocalSearchParams()
@@ -127,12 +128,29 @@ const AlbumScreen = () => {
 					<View
 						style={{
 							paddingLeft: 16,
+							flex: 1,
+							flexDirection: 'row',
+							alignItems: 'center',
+							justifyContent: 'space-between',
+							//paddingRight: 16
 						}}
 					>
-						<Text style={styles.artist}>{album?.subtitle}</Text>
-						<Text style={styles.details}>
-							{album?.type} • {album?.year}
-						</Text>
+						<View
+							style={{
+								flex: 1,
+								flexDirection: 'column',
+								justifyContent: 'space-between',
+								//paddingRight: 16
+							}}
+						>
+							<Text style={styles.artist}>{album?.subtitle}</Text>
+							<Text style={styles.details}>
+								{album?.type} • {album?.year}
+							</Text>
+							<Text />
+						</View>
+
+						<QueueControls contentId={album?.id ?? '0'} type="Album" tracks={filteredTracks} />
 					</View>
 				</LinearGradient>
 				{/* <Text style={styles.details}>Album • {album.releaseYear || 'Unknown'}</Text> */}

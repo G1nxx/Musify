@@ -40,3 +40,9 @@ export type Artist = {
 	artwork: string
 	type: string
 }
+
+export type User = {
+	id: string
+	login: string
+	email: string
+}
